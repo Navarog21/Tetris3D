@@ -26,9 +26,10 @@ class Playground
 
   create()
   {
-    const geometry = new THREE.BoxGeometry(this.width, this.height, this.depth, 8, 8, 8);
+    const geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
     const material = new THREE.MeshPhongMaterial({color: "red", wireframe: true});
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.y = this.height/2;
     scene.add(mesh);
   }
 }

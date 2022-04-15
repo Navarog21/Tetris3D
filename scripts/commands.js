@@ -1,3 +1,5 @@
+import * as THREE from 'https://unpkg.com/three@0.119.0/build/three.module.js';
+import { EXISTING_BLOCKS, ACTUAL_BLOCK, Playground} from './shape.js';
 
 class Controls
 {
@@ -13,39 +15,48 @@ class Controls
   }
 }
 
-canvas.addEventListener('click',(e) =>
-{
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-  character.attack();
-})
-
 window.addEventListener('keydown',(e) =>
 {
-  if (e.key == "Tab")
+  e.preventDefault();
+  switch (e.code)
   {
+    case "KeyA":
+    ACTUAL_BLOCK.position.x -= 2;
+    break;
+
+    // Bouger à droite
+    case "KeyD":
+    ACTUAL_BLOCK.position.x += 2;
+    break;
+
+    // Bouger au fond
+    case "KeyW":
+    ACTUAL_BLOCK.position.z -= 2;
+    break;
+
+    // Bouger devantzz
+    case "KeyS":
+    ACTUAL_BLOCK.position.z += 2;
+    break;
+
+    // Rotation X
+    case "Tab":
+    ACTUAL_BLOCK.rotation.x += Math.PI/2;
+    break;
+
+    // Rotation Y
+    case "Space":
+    ACTUAL_BLOCK.rotation.y +=  Math.PI/2;
+    console.log(ACTUAL_BLOCK.rotation)
+    break;
+
+    // Rotation Z
+    case "AltLeft":
     e.preventDefault();
-    let audio = new Audio("sounds/swap.wav")
-    audio.play();
-    if (character.shape == 2) character.shape = 0;
-    else character.shape++;
+    ACTUAL_BLOCK.rotation.z += Math.PI/2;
+    break;
+    default:
   }
 
 
-  if (e.keyCode == 32)
-  {
-    character.toJump();
-  }
-
-  // Flèche de gauche
-  if (event.key == "q" || event.key == "Q")
-  {
-    character.moveLeft();
-  }
-
-  // Flèche de droite
-  if (event.key == "d" || event.key == "D")
-  {
-    character.moveRight();
-  }
 })
