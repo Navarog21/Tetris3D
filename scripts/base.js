@@ -28,32 +28,17 @@ const gridHelper = new THREE.GridHelper(32,32);
 scene.add(gridHelper);
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
-camera.position.set(-10, 10, 8);
+camera.position.set(-20, 20, 20);
 
 // let light = new THREE.HemisphereLight( "white", "white", 1 );
 // scene.add(light);
 
-let light, light2, light3, light4, light5, light6;
-
-light = new THREE.PointLight('white', 1, 100);
-light2 = new THREE.PointLight('white', 1, 100);
-light3 = new THREE.PointLight('white', 1, 100);
-light4 = new THREE.PointLight('white', 1, 100);
-light5 = new THREE.PointLight('white', 1, 100);
-light6 = new THREE.PointLight('white', 1, 100);
-//---------------------------//
-light.position.set(0, 0, 10);
-light2.position.set(0, 0, -10);
-light3.position.set(-10, 0, 0);
-light4.position.set(10, 0, 0);
-light5.position.set(0, -10, 0);
-light6.position.set(0, 10, 0);
+const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+scene.add(light);
 
 const control = new OrbitControls(camera, renderer.domElement);
 control.enableDamping = true;
 control.enablePan = true;
-
-scene.add(light, light2, light3, light4, light5, light6);
 
 export {canvas, renderer, scene, camera, control};
 export default scene;

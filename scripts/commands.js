@@ -48,9 +48,4 @@ window.addEventListener('keydown',(e) =>
   {
     character.moveRight();
   }
-
-  if (e.key == "Escape")
-  {
-    WORLD.break();
-  }
 })
