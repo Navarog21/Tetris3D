@@ -1,62 +1,61 @@
 import * as THREE from 'https://unpkg.com/three@0.119.0/build/three.module.js';
-import { EXISTING_BLOCKS, ACTUAL_BLOCK, Playground} from './shape.js';
+import { EXISTING_BLOCKS, ACTUAL_BLOCK, GHOST, Playground} from './shape.js';
 
-class Controls
+export default function moveBlocks(e)
 {
-  constructor()
-  {
-    this.forward = document.querySelector('#moveForward').value;
-    this.backward = document.querySelector('#moveBackward').value;
-    this.right = document.querySelector('#moveRight').value;
-    this.left = document.querySelector('#moveLeft').value;
-    this.jump = document.querySelector('#jump').value;
-    this.attack = document.querySelector('#attack').value;
-    this.swap = document.querySelector('#swap').value;
-  }
-}
-
-window.addEventListener('keydown',(e) =>
-{
-  e.preventDefault();
+  let position = ACTUAL_BLOCK.position;
+  let ghostPosition = GHOST.position;
   switch (e.code)
   {
     case "KeyA":
-    ACTUAL_BLOCK.position.x -= 2;
+    if (position.x <= -14) break;
+    position.x -= 2;
+    ghostPosition.x -= 2;
     break;
 
     // Bouger à droite
     case "KeyD":
-    ACTUAL_BLOCK.position.x += 2;
+    if (position.x >= 14) break;
+    position.x += 2;
+    ghostPosition.x += 2;
     break;
 
-    // Bouger au fond
+    // Bouger au fondw
     case "KeyW":
-    ACTUAL_BLOCK.position.z -= 2;
+    if (position.z <= -14) break;
+    position.z -= 2;
+    ghostPosition.z -= 2;
     break;
 
-    // Bouger devantzz
+    // Bouger devant
     case "KeyS":
-    ACTUAL_BLOCK.position.z += 2;
+    if (position.z >= 14) break;
+    position.z += 2;
+    ghostPosition.z += 2;
+    break;
+
+    // Poser directement le bloc
+    case "Space":
+    position.y = 1 ;
     break;
 
     // Rotation X
-    case "Tab":
+    case "KeyR":
     ACTUAL_BLOCK.rotation.x += Math.PI/2;
+    GHOST.rotation.x += Math.PI/2;
     break;
 
     // Rotation Y
-    case "Space":
-    ACTUAL_BLOCK.rotation.y +=  Math.PI/2;
-    console.log(ACTUAL_BLOCK.rotation)
+    case "KeyF":
+    ACTUAL_BLOCK.rotation.y += Math.PI/2;
+    GHOST.rotation.y += Math.PI/2;
     break;
 
     // Rotation Z
-    case "AltLeft":
-    e.preventDefault();
+    case "KeyE":
     ACTUAL_BLOCK.rotation.z += Math.PI/2;
+    GHOST.rotation.z += Math.PI/2;
     break;
     default:
   }
-
-
-})
+}

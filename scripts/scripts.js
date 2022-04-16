@@ -4,32 +4,32 @@ import Block from './shape.js';
 import {EXISTING_BLOCKS, ACTUAL_BLOCK} from './shape.js';
 import SHAPES from './loader.js';
 import newRandomBlock from './shape.js';
-import * as commands from './commands.js';
+import moveBlocks from './commands.js';
+
+window.addEventListener('keydown', moveBlocks)
 const loop = () =>
 {
   verifyPosition();
+  getCollision();
   control.update();
   renderer.render(scene, camera);
   requestAnimationFrame(loop)
 }
 
+function getCollision()
+{
+
+}
 
 function verifyPosition()
 {
-  for (let i = 0; i < EXISTING_BLOCKS.length; i++)
+  if (ACTUAL_BLOCK.position.y >= 1)
   {
-    if (ACTUAL_BLOCK.y <= EXISTING_BLOCKS[i])
-    {
-
-    }
-
+    ACTUAL_BLOCK.position.y -= ACTUAL_BLOCK.speed;
   }
-  if (ACTUAL_BLOCK.position.y <= 0 + 1)
+  else
   {
     newRandomBlock(SHAPES);
-  }
-  else {
-    ACTUAL_BLOCK.position.y -= 0.05;;
   }
 
 }
