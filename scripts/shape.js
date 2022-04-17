@@ -3,7 +3,7 @@ import scene from './base.js';
 import SHAPES from './loader.js'
 
 let EXISTING_BLOCKS = new Array();
-let ACTUAL_BLOCK, GHOST;
+let CURRENT_BLOCK, GHOST;
 
 
 class Playground
@@ -22,22 +22,52 @@ class Playground
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = Math.PI/2;
     mesh.name = 'sol';
+    mesh.receiveShadow = true;
+    mesh.castShadow = true;
     scene.add(mesh);
   }
 }
 
-class Block
+
+const lShape = new THREE.Shape();
+lShape.moveTo(0,20);
+lShape.lineTo(0,18);
+lShape.lineTo(3,18);
+lShape.lineTo(3,19);
+lShape.lineTo(1,19);
+lShape.lineTo(1,20);
+lShape.lineTo(0,20);
+
+const extrudeSettings = { depth: 1, bevelEnabled:false };
+const geometry = new THREE.ExtrudeGeometry( lShape, extrudeSettings );
+const mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial());
+console.log(mesh)
+scene.add(mesh);
+
+class Block extends THREE.Object3D
 {
   constructor()
   {
-    this.position = new THREE.Vector3(0, 0, 0)
+    super()
+    this.geometry = new THREE.SphereGeometry(5, 32, 32);
+    this.material = new THREE.MeshPhongMaterial({color: "red"});
+    this.name = "oui";
+    this.create()
   }
 
   create()
   {
-
+    let mesh = new THREE.Mesh(this.geometry, this.material);
+    // scene.add(mesh)
   }
 }
+
+let block = new Block();
+setInterval(() =>
+{
+  block.position.x += 0.02
+},10)
+
 
 class Ghost extends Block
 {
@@ -55,44 +85,29 @@ function newRandomBlock(blocks)
   ghost = block.clone();
   let material = new THREE.MeshPhysicalMaterial({transparent: true, opacity: 0.6, color: block.material.color});
   ghost.material = material;
-  ACTUAL_BLOCK = block;
+  CURRENT_BLOCK = block;
+  defineProperties(block)
+
+  ghost.position.set(0, 1, 0);
+  GHOST = ghost;
+  const box = new THREE.BoxHelper( CURRENT_BLOCK, "red" );
+  scene.add( box );
+
+  scene.add(block, ghost);
+}
+
+function defineProperties(block)
+{
   Object.defineProperties(block, {
     speed: {
       configurable: true,
       enumerable: true,
       value: 0.05,
       writable: true
-    },
-    move: {
-      configurable: true,
-      enumerable: true,
-      value: true,
-      writable: true
     }
   });
-  let y = getGhostPosition(ghost);
-  console.log(y)
-  ghost.position.set(0, y, 0);
-  GHOST = ghost;
-  EXISTING_BLOCKS.push(block);
-  scene.add(block, ghost);
 }
 
-function getGhostPosition(ghost)
-{
-  for (let i = 0; i < EXISTING_BLOCKS.length; i++)
-  {
-    if (ghost.position.y == EXISTING_BLOCKS[i].position.y && ghost.position.x == EXISTING_BLOCKS[i].position.x && ghost.position.z == EXISTING_BLOCKS[i].position.z)
-    {
-      console.log('oui')
-      return EXISTING_BLOCKS[i].position.y+5;
-    }
-    else {
-      return 0
-    }
-  }
-  return 0
-}
 
-export { EXISTING_BLOCKS, ACTUAL_BLOCK, GHOST, Playground};
+export { EXISTING_BLOCKS, CURRENT_BLOCK, GHOST, Playground};
 export default newRandomBlock;
