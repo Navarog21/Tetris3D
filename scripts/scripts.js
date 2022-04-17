@@ -29,6 +29,14 @@ function checkCollisions()
 
     if (EXISTING_BLOCKS.length > 0)
     {
+      let yMax;
+      for (let i = 0; i < EXISTING_BLOCKS.length; i++)
+      {
+        if (EXISTING_BLOCKS.position.y) {
+
+        }
+        EXISTING_BLOCKS[i]
+      }
       for (let i = 0; i < currentBlockVertex.count; i++)
       {
 
