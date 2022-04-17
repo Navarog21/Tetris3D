@@ -18,54 +18,50 @@ const loop = () =>
 }
 // On récupère chaque Vertex du block, et on compare leurs emplacement à ceux des autres blocks
 // Si l'une d'entres elles possèdent la même position, c'est qu'il y a collision
+
+
 function checkCollisions()
 {
-  let currentBlockPosition = CURRENT_BLOCK.position.y;
+  let yMax;
+  let currentBlockPosition = CURRENT_BLOCK.position;
   let currentBlockVertex = CURRENT_BLOCK.geometry.attributes.position;
 
-  if (currentBlockPosition >= 0)
+  if (currentBlockPosition.y >= 1)
   {
-    CURRENT_BLOCK.position.y -= CURRENT_BLOCK.speed
-
     if (EXISTING_BLOCKS.length > 0)
     {
-      let yMax;
       for (let i = 0; i < EXISTING_BLOCKS.length; i++)
       {
-        if (EXISTING_BLOCKS.position.y) {
+        let existingBlockPosition = EXISTING_BLOCKS[i].position;
 
-        }
-        EXISTING_BLOCKS[i]
-      }
-      for (let i = 0; i < currentBlockVertex.count; i++)
-      {
-
-        let vertexPosition = CURRENT_BLOCK.geometry.getAttribute('position');
-        let vertex = new THREE.Vector3();
-        vertex.fromBufferAttribute(vertexPosition, i)
-        let currentBlockVertexVector = CURRENT_BLOCK.localToWorld(vertex)
-
-        for (let j = 0; j < EXISTING_BLOCKS.length; j++)
+        if (currentBlockPosition.x == existingBlockPosition.x && currentBlockPosition.z == existingBlockPosition.z
+        /*&& currentBlockPosition.y <= existingBlockPosition.y + 4*/)
         {
-          let exisitingBlockVertexPosition = EXISTING_BLOCKS[j].geometry.getAttribute('position');
-          for (let k = 0; k < currentBlockVertex.count; k++)
-          {
-            let existingBlockVertex = new THREE.Vector3();
-            vertex.fromBufferAttribute(vertexPosition, k)
-            let vertexVector = EXISTING_BLOCKS[j].localToWorld(vertex)
-            if (currentBlockVertexVector.equals(vertexVector))
-            {
-              newRandomBlock(SHAPES)
-            }
-          }
+          let ghost = scene.getObjectByName('ghost');
+          scene.remove(ghost);
+          console.log(scene.getObjectByName('ghost').isObject3D)
+          newRandomBlock(SHAPES)
         }
       }
     }
+      currentBlockPosition.y -= CURRENT_BLOCK.speed
   }
   else
   {
     EXISTING_BLOCKS.push(CURRENT_BLOCK)
     newRandomBlock(SHAPES)
+  }
+}
+
+function getBlock()
+{
+  for (let i = 0; i < EXISTING_BLOCKS.length; i++)
+  {
+    let existingBlockPosition = EXISTING_BLOCKS.position;
+    if (currentBlockPosition.x == existingBlockPosition.x && currentBlockPosition.z == existingBlockPosition.z && currentBlockPosition.y + 1 <= existingBlockPosition.y)
+    {
+      newRandomBlock(SHAPES)
+    }
   }
 }
 
