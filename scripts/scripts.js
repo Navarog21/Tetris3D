@@ -19,7 +19,7 @@ const loop = () =>
 // On récupère chaque Vertex du block, et on compare leurs emplacement à ceux des autres blocks
 // Si l'une d'entres elles possèdent la même position, c'est qu'il y a collision
 
-
+let click = false;
 function checkCollisions()
 {
   let yMax;
@@ -30,21 +30,13 @@ function checkCollisions()
   {
     if (EXISTING_BLOCKS.length > 0)
     {
-      for (let i = 0; i < EXISTING_BLOCKS.length; i++)
-      {
-        let existingBlockPosition = EXISTING_BLOCKS[i].position;
 
-        if (currentBlockPosition.x == existingBlockPosition.x && currentBlockPosition.z == existingBlockPosition.z
-        /*&& currentBlockPosition.y <= existingBlockPosition.y + 4*/)
-        {
-          let ghost = scene.getObjectByName('ghost');
-          scene.remove(ghost);
-          console.log(scene.getObjectByName('ghost').isObject3D)
-          newRandomBlock(SHAPES)
-        }
-      }
     }
+
+    if (click == false) {
       currentBlockPosition.y -= CURRENT_BLOCK.speed
+    }
+
   }
   else
   {
@@ -66,4 +58,16 @@ function getBlock()
 }
 
 
+window.addEventListener('click', () =>
+{
+  if (click == false)
+  {
+    if (click == false) click = true;
+    else click = false;
+  }
+  else {
+    if (click == true)click = false;
+    else click = true;
+  }
+})
 export default loop

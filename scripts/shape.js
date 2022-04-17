@@ -44,54 +44,9 @@ const mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial());
 scene.add(mesh);
 
 
-const extrudeSettings2 = { depth: 1, bevelEnabled:false };
-const geometry2 = new THREE.ExtrudeGeometry( lShape, extrudeSettings2 );
-const mesh3 = new THREE.Mesh( geometry2, new THREE.MeshPhongMaterial());
-
-scene.add(mesh3);
-
-mesh.attach(mesh3);
-
-setInterval(() =>
-{
-  mesh.rotation.x+=0.02
-}, 1)
-
-class Block extends THREE.Object3D
-{
-  constructor()
-  {
-    super()
-    this.geometry = new THREE.SphereGeometry(5, 32, 32);
-    this.material = new THREE.MeshPhongMaterial({color: "red"});
-    this.name = "oui";
-    this.create()
-  }
-
-  create()
-  {
-    let mesh = new THREE.Mesh(this.geometry, this.material);
-    // scene.add(mesh)
-  }
-}
-
-let block = new Block();
-setInterval(() =>
-{
-  block.position.x += 0.02
-},10)
-
-
-class Ghost extends Block
-{
-  constructor()
-  {
-
-  }
-}
-
 function newRandomBlock(blocks)
 {
+  console.log(blocks)
   let block, ghost;
   block = blocks[getRandomNumber(0, blocks.length-1)].clone();
   block.position.set(0, 30, 0);
