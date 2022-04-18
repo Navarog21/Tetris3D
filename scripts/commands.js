@@ -5,38 +5,40 @@ export default function moveBlocks(e)
 {
   let position = CURRENT_BLOCK.position;
   let ghostPosition = GHOST.position;
+  let step = 1;
   switch (e.code)
   {
     case "KeyA":
     if (position.x <= -14) break;
-    position.x -= 2;
-    ghostPosition.x -= 2;
+    position.x -= step;
+    ghostPosition.x -= step;
     break;
 
     // Bouger à droite
     case "KeyD":
     if (position.x >= 14) break;
-    position.x += 2;
-    ghostPosition.x += 2;
+    position.x += step;
+    console.log(CURRENT_BLOCK.position)
+    ghostPosition.x += step;
     break;
 
     // Bouger au fondw
     case "KeyW":
     if (position.z <= -14) break;
-    position.z -= 2;
-    ghostPosition.z -= 2;
+    position.z -= step;
+    ghostPosition.z -= step;
     break;
 
     // Bouger devant
     case "KeyS":
     if (position.z >= 14) break;
-    position.z += 2;
-    ghostPosition.z += 2;
+    position.z += step;
+    ghostPosition.z += step;
     break;
 
     // Poser directement le bloc
     case "Space":
-    position.y = 1 ;
+    position.y = 0 ;
     break;
 
     // Rotation X
@@ -48,7 +50,6 @@ export default function moveBlocks(e)
     // Rotation Y
     case "KeyF":
     CURRENT_BLOCK.rotation.y += Math.PI/2;
-    GHOST.rotation.y += Math.PI/2;
     break;
 
     // Rotation Z

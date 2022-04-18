@@ -28,34 +28,19 @@ class Playground
   }
 }
 
-
-const lShape = new THREE.Shape();
-lShape.moveTo(0,20);
-lShape.lineTo(0,18);
-lShape.lineTo(3,18);
-lShape.lineTo(3,19);
-lShape.lineTo(1,19);
-lShape.lineTo(1,20);
-lShape.lineTo(0,20);
-
-const extrudeSettings = { depth: 1, bevelEnabled:false };
-const geometry = new THREE.ExtrudeGeometry( lShape, extrudeSettings );
-const mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial());
-scene.add(mesh);
-
-
-function newRandomBlock(blocks)
+function nextRandomBlock(blocks)
 {
-  console.log(blocks)
   let block, ghost;
   block = blocks[getRandomNumber(0, blocks.length-1)].clone();
-  block.position.set(0, 30, 0);
+  block.position.set(0, 15, 0);
+
   ghost = block.clone();
   let material = new THREE.MeshPhysicalMaterial({transparent: true, opacity: 0.6, color: block.material.color});
   ghost.material = material;
   CURRENT_BLOCK = block;
   defineProperties(block)
   GHOST = ghost;
+  ghost.parent = CURRENT_BLOCK;
   CURRENT_BLOCK.attach(GHOST)
   ghost.position.set(0, 1, 0);
   GHOST.name = "ghost"
@@ -74,6 +59,5 @@ function defineProperties(block)
   });
 }
 
-
+export default nextRandomBlock;
 export { EXISTING_BLOCKS, CURRENT_BLOCK, GHOST, Playground};
-export default newRandomBlock;
